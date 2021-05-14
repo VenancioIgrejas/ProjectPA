@@ -1,4 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, Double} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, Double, OneToOne, JoinColumn} from "typeorm";
+import {User} from "./User";
+import {Category} from "./Category";
+import {Provider} from "./Provider";
 
 @Entity()
 export class Product {
@@ -6,20 +9,26 @@ export class Product {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    login_id: number;
+    @OneToOne(() => User)
+    @JoinColumn()
+    User: User;
 
     @Column()
     name: string;
 
-    @Column()
-    category_id: number;
+    @OneToOne(() => Category)
+    @JoinColumn()
+    Category: Category;
 
     @Column()
     comment: string;
 
     @Column()
     provider_id: number;
+
+    @OneToOne(() => Provider)
+    @JoinColumn()
+    Provider: Provider;
 
     @Column({ type: "decimal"})
     price: Double;

@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column, Double} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, Double, OneToOne, JoinColumn} from "typeorm";
+import {User} from "./User";
 
 @Entity()
 export class Provider {
@@ -6,8 +7,9 @@ export class Provider {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    login_id: number;
+    @OneToOne(() => User)
+    @JoinColumn()
+    User: User;
 
     @Column()
     name: string;
