@@ -11,7 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "sequelize": "^6.6.2",
-    "sqlite3": "^5.0.2"
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.2",
+    "typeorm": "^0.2.32"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.3"
   }
 }
