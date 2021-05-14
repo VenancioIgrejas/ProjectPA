@@ -1,15 +1,15 @@
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity()
-export class User {
+export class Category {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    login: string;
+    login_id: number;
 
     @Column()
-    password: string;
+    name: string;
 
 }
