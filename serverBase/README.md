@@ -2,7 +2,8 @@
 
 Passo a Passo para iniciar:
 
-1. Escreva o comando `npm start` para iniciar (porta 3000) aberta
+1. Escreva o comando `npm install` para baixar as dependencias do projeto
+2. Escreva o comando `npm start` para iniciar (porta 3000) aberta
 
 Passo a Passo para Iniciar o Database (sqlite3):
 
