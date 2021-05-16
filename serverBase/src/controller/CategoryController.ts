@@ -9,22 +9,28 @@ export class CategoryController {
     private userRepository = getRepository(User);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.categoryRepository.find();
+        return this.categoryRepository.find({ relations: ["User"] });
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.categoryRepository.findOne(request.params.id);
+        return this.categoryRepository.findOne(request.params.id,{ relations: ["User"] });
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        console.log(request.body);
-        const category = await this.categoryRepository.create(request.body)[0];
-        const user = await this.userRepository.findOne(request.body.userId);
-        console.log(user);
-        
-        category.User = user;
+        const category = new Category();
+        category.name = request.body.name;
 
-        return this.categoryRepository.save(category);
+        return this.userRepository.findOne(request.body.userId)
+                        .then(user => {
+                            console.log(category.User); 
+                            category.User = user;
+                            this.categoryRepository.save(category);
+                        })
+                        .then(category => response.status(200).send({ message: 'ok' }))
+                        .catch((err: any) => {
+                            response.status(500).send({ message: err })
+                        });
+
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {

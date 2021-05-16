@@ -7,6 +7,10 @@ import {CategoryController} from "./controller/CategoryController";
 export const Routes = [
     
  // routes for Users
+ //
+//For save: json ->
+//{name:String,password:int}
+//
     {
     method: "get",
     route: "/users",
@@ -32,6 +36,10 @@ export const Routes = [
 
 
 //routes for provider
+//
+//For save: json ->
+//{name:String,cel:string,info:string,per_price:decimal,userId:int}
+//
 {
     method: "get",
     route: "/provider",
@@ -56,6 +64,11 @@ export const Routes = [
 
 
 //routes for category
+//
+//For save: json ->
+//{name:String,userId:int}
+//
+
 {
     method: "get",
     route: "/category",

@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, Double, OneToOne, JoinColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, Double, ManyToOne, JoinColumn} from "typeorm";
 import {User} from "./User";
 import {Category} from "./Category";
 import {Provider} from "./Provider";
@@ -9,21 +9,21 @@ export class Product {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @OneToOne(() => User)
+    @ManyToOne(type => User)
     @JoinColumn()
     User: User;
 
     @Column()
     name: string;
 
-    @OneToOne(() => Category)
+    @ManyToOne(type => Category)
     @JoinColumn()
     Category: Category;
 
     @Column()
     comment: string;
 
-    @OneToOne(() => Provider)
+    @ManyToOne(type => Provider)
     @JoinColumn()
     Provider: Provider;
 
