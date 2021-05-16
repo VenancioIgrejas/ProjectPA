@@ -1,8 +1,8 @@
 {
    "type": "sqlite",
-   "database": "database.sqlite",
+   "database": "breshow.sqlite",
    "synchronize": true,
-   "logging": false,
+   "logging": true,
    "entities": [
       "src/entity/**/*.ts"
    ],

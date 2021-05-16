@@ -15,6 +15,7 @@ export class ProductController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
+        console.log(request.body);
         return this.productRepository.save(request.body);
     }
 

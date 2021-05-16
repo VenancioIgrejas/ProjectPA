@@ -23,9 +23,6 @@ export class Product {
     @Column()
     comment: string;
 
-    @Column()
-    provider_id: number;
-
     @OneToOne(() => Provider)
     @JoinColumn()
     Provider: Provider;

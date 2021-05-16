@@ -4,7 +4,17 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import {Request, Response} from "express";
 import {Routes} from "./routes";
+
 import {User} from "./entity/User";
+import {Category} from "./entity/Category";
+import {Product} from "./entity/Product";
+import {Provider} from "./entity/Provider";
+
+
+import * as providerjson from './../../dataMock/MOCK_DATA_provider.json';
+import  * as categoryjson from './../../dataMock/MOCK_DATA_category.json';
+import  * as  usersjson from './../../dataMock/MOCK_DATA_users.json';
+import  * as  productjson from './../../dataMock/MOCK_DATA_product.json';
 
 createConnection().then(async connection => {
 
@@ -29,19 +39,23 @@ createConnection().then(async connection => {
     // ...
 
     // start express server
-    app.listen(3000);
+    app.listen(3001);
 
     // insert new users for test
-    await connection.manager.save(connection.manager.create(User, {
-        login: "Timber",
-        password: "Saw"
-    }));
-    
-    await connection.manager.save(connection.manager.create(User, {
-        login: "Phantom",
-        password: "Assassin"
-    }));
+    // await connection.manager.save(connection.manager.create(User, {
+    //     login: "Timber",
+    //     password: "Saw"
+    // }));
 
-    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
+    // insert new users for test
+    // await connection.manager.save(connection.manager.create(User, usersjson));
+    // await connection.manager.save(connection.manager.create(Category, categoryjson));
+    // await connection.manager.save(connection.manager.create(Provider, providerjson));
+    // await connection.manager.save(connection.manager.create(Product, productjson));
+    // await connection.manager.save(connection.manager.createQueryBuilder().insert().into(User).values(usersjson).execute());
+    
+    // await connection.createQueryBuilder().insert().into(User).values(usersjson).execute();
+
+    console.log("Express server has started on port 3001. Open http://localhost:3001/users to see results");
 
 }).catch(error => console.log(error));
