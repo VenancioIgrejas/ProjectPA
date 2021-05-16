@@ -15,7 +15,7 @@ export class Provider {
     name: string;
 
     @Column()
-    cel: number;
+    cel: string;
 
     @Column()
     info: string;

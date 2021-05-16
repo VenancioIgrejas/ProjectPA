@@ -1,26 +1,35 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Category} from "../entity/Category";
+import {User} from "../entity/User";
 
 export class CategoryController {
 
-    private productRepository = getRepository(Category);
+    private categoryRepository = getRepository(Category);
+    private userRepository = getRepository(User);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.productRepository.find();
+        return this.categoryRepository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.productRepository.findOne(request.params.id);
+        return this.categoryRepository.findOne(request.params.id);
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return this.productRepository.save(request.body);
+        console.log(request.body);
+        const category = await this.categoryRepository.create(request.body)[0];
+        const user = await this.userRepository.findOne(request.body.userId);
+        console.log(user);
+        
+        category.User = user;
+
+        return this.categoryRepository.save(category);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let userToRemove = await this.productRepository.findOne(request.params.id);
-        await this.productRepository.remove(userToRemove);
+        let userToRemove = await this.categoryRepository.findOne(request.params.id);
+        await this.categoryRepository.remove(userToRemove);
     }
 
 }
