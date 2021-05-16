@@ -2,7 +2,7 @@ import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Provider} from "../entity/Provider";
 
-export class ProductController {
+export class ProviderController {
 
     private productRepository = getRepository(Provider);
 
@@ -15,6 +15,9 @@ export class ProductController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
+
+        
+
         return this.productRepository.save(request.body);
     }
 

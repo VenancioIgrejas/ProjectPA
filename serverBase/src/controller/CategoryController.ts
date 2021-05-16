@@ -2,7 +2,7 @@ import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Category} from "../entity/Category";
 
-export class ProductController {
+export class CategoryController {
 
     private productRepository = getRepository(Category);
 
