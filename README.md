@@ -1,6 +1,6 @@
 # ProjectPA
 
-# Utilizando container:
+## Utilizando container:
 
 rodar docker-compose na raiz do projeto e rodar a aplicação na url http://localhost:3000
 
