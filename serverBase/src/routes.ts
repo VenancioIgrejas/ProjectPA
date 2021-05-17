@@ -92,6 +92,10 @@ export const Routes = [
 },
 
 //routes for product
+//
+//For save: json ->
+//{name:string,comment:string,price:decimal,quantity:int,date_in:datetime,userId:int,categoryId:int,providerId:int}
+//
 {
     method: "get",
     route: "/product",
