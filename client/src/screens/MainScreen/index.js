@@ -2,6 +2,7 @@ import { useDisclosure } from '@chakra-ui/hooks';
 import { Box, Flex } from '@chakra-ui/layout';
 import React, { useState } from 'react';
 import AddProductForm from '../../components/AddProductForm';
+import AddProviderForm from '../../components/AddProviderForm';
 import ProductModal from '../../components/ProductModal';
 import ProductsList from '../../components/ProductsList';
 import SideMenu from '../../components/SideMenu';
@@ -14,7 +15,7 @@ function MainScreen() {
 
   return (<Flex height="100vh" flexDirection="column" alignItems="center" paddingY={5} paddingX={20} >
     <Box w="sm" h="20" bg='yellowgreen'></Box>
-    <Flex width="100%" height="70%" marginTop="auto">
+    <Flex width="100%" height="80%" marginTop="auto">
       <SideMenu selected={menuOption} setSelected={setMenuOption} />
       <Box
         marginTop='auto'
@@ -47,6 +48,9 @@ function MainScreen() {
           }
           if (menuOption === "3") {
             return <AddProductForm />
+          }
+          if (menuOption === "4") {
+            return <AddProviderForm />
           }
         }()}
       </Box>

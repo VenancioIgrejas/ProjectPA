@@ -17,10 +17,13 @@
     "formik": "^2.2.6",
     "framer-motion": "^4",
     "react": "^17.0.2",
+    "react-datepicker": "^3.8.0",
     "react-dom": "^17.0.2",
+    "react-input-mask": "^2.0.4",
     "react-scripts": "4.0.3",
     "react-select": "^4.3.1",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",

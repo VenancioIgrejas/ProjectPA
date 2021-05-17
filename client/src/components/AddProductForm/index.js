@@ -5,40 +5,44 @@ import { Input, InputGroup, InputLeftAddon } from '@chakra-ui/input';
 import { Box, Heading, Stack } from '@chakra-ui/layout';
 import { Select } from '@chakra-ui/select';
 import { Field, Form, Formik } from 'formik';
-import CreatableSelect from 'react-select/creatable';
 import React from 'react';
 import { Textarea } from '@chakra-ui/textarea';
 import { NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/number-input';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import * as Yup from 'yup';
 
 function AddProductForm() {
-  function validateName(value) {
-    if (!value) return "Nome é um campo obrigatório"
 
-  }
-
-  function validateCategory(value) {
-    if (!value) return "Categoria é um campo obrigatório"
-  }
-  function validatePrice(value) { if (!value) return "Preço é um campo obrigatório" }
-  function validateQuantity(value) { if (!value) return "Quantidade é um campo obrigatório" }
+  const AddProductSchema = Yup.object().shape({
+    name: Yup.string().required('Campo obrigatório'),
+    category: Yup.string().required('Campo obrigatório'),
+    price: Yup.number().required('Campo obrigatório'),
+    quantity: Yup.number().required('Campo obrigatorio'),
+    date_in: Yup.date('Data inválida').required('Campo obrigatório')
+  })
 
   return <Box>
-    <Heading paddingY={10}>Adicionar venda</Heading>
+    <Heading paddingY={5}>Adicionar venda</Heading>
     <Formik
-      initialValues={{ name: "", category: "" }}
+      initialValues={{ name: "", category: "", price: "", quantity: 1, provider: "", comment: "", date_in: "" }}
+      validationSchema={AddProductSchema}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          actions.setSubmitting(false)
+          alert(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+          actions.resetForm();
+          let quantityInput = document.getElementById("quantity");
+          let priceInput = document.getElementById("price");
+          priceInput.value = "";
+          quantityInput.value = 1;
         }, 1000)
       }}
     >
       {(props) => (
         <Form>
           <Stack spacing={5}>
-            <Field name="name" validate={validateName}>
+            <Field name="name" >
               {({ field, form }) => (
                 <FormControl isRequired isInvalid={form.errors.name && form.touched.name}>
                   <FormLabel htmlFor="name">Nome</FormLabel>
@@ -47,7 +51,7 @@ function AddProductForm() {
                 </FormControl>
               )}
             </Field>
-            <Field name="category" validate={validateCategory}>
+            <Field name="category" >
               {({ field, form }) => (
                 <FormControl isRequired isInvalid={form.errors.category && form.touched.category}>
                   <FormLabel htmlFor="category">Categoria</FormLabel>
@@ -60,26 +64,26 @@ function AddProductForm() {
                 </FormControl>
               )}
             </Field>
-            <Field name="price" validate={validatePrice}>
+            <Field name="price" >
               {({ field, form }) => (
                 <FormControl isRequired isInvalid={form.errors.price && form.touched.price}>
                   <FormLabel htmlFor="price">Preço</FormLabel>
                   <InputGroup {...field}>
                     <InputLeftAddon children="R$" />
-                    <NumberInput precision={2} min={0}>
-                      <NumberInputField placeholder="3.14" {...field} />
+                    <NumberInput precision={2} min={0} >
+                      <NumberInputField placeholder="3.14" {...field} id="price" />
                     </NumberInput>
                   </InputGroup>
                   <FormErrorMessage>{form.errors.price}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
-            <Field name="quantity" validate={validateQuantity}>
+            <Field name="quantity" >
               {({ field, form }) => (
                 <FormControl isRequired isInvalid={form.errors.quantity && form.touched.quantity}>
                   <FormLabel htmlFor="quantity">Quantidade</FormLabel>
-                  <NumberInput precision={0} min={0} defaultValue={1}>
-                    <NumberInputField {...field} />
+                  <NumberInput precision={0} min={0} defaultValue={1} >
+                    <NumberInputField {...field} id="quantity" />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
@@ -89,16 +93,23 @@ function AddProductForm() {
                 </FormControl>
               )}
             </Field>
-            <Field name="date">
-              {({ field, form }) => (
-                <FormControl isRequired isInvalid={form.errors.date && form.touched.date}>
-                  <FormLabel htmlFor="date">Data da venda</FormLabel>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker />
-                  </MuiPickersUtilsProvider>
-                  <FormErrorMessage>{form.errors.date}</FormErrorMessage>
-                </FormControl>
-              )}
+            <Field name="date_in">
+              {({ field, form }) => {
+                console.log("field: ", field);
+                console.log("form: ", form);
+                return (
+                  <FormControl isRequired isInvalid={form.errors.date_in && form.touched.date_in}>
+                    <FormLabel htmlFor="date_in">Data da venda</FormLabel>
+                    <DatePicker
+                      id="date_in"
+                      dateFormat="dd/MM/yyyy"
+                      selected={field.value}
+                      onChange={value => form.setFieldValue("date_in", value)}
+                    />
+                    <FormErrorMessage>{form.errors.date_in}</FormErrorMessage>
+                  </FormControl>
+                );
+              }}
             </Field>
             <Field name="provider">
               {({ field, form }) => (
@@ -135,22 +146,4 @@ function AddProductForm() {
   </Box >;
 }
 
-
-// <Field name="category" validate={validateCategory}>
-//   {({ field, form }) => (
-//     <FormControl isInvalid={form.errors.category && form.touched.category} isRequired>
-//       <FormLabel htmlFor="category">Categoria</FormLabel>
-//       <Input {...field} id="category" />
-//       <FormErrorMessage>{form.errors.category}</FormErrorMessage>
-//     </FormControl>
-//   )}
-// </Field>
-
-// <Heading>Adicionar venda</Heading>
-// <FormControl paddingY={10}>
-//   <FormLabel>Nome</FormLabel>
-// </FormControl>
-// <Button type="submit">
-//   Enviar
-//     </Button>
 export default AddProductForm;
