@@ -12,9 +12,9 @@ function MainScreen() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedProduct, setSelectedProduct] = useState({});
   const [menuOption, setMenuOption] = useState("1");
+  const [userId, setUserId] = useState(1);
 
   return (<Flex height="100vh" flexDirection="column" alignItems="center" paddingY={5} paddingX={20} >
-    <Box w="sm" h="20" bg='yellowgreen'></Box>
     <Flex width="100%" height="80%" marginTop="auto">
       <SideMenu selected={menuOption} setSelected={setMenuOption} />
       <Box
@@ -47,10 +47,10 @@ function MainScreen() {
             />
           }
           if (menuOption === "3") {
-            return <AddProductForm />
+            return <AddProductForm userId={userId} />
           }
           if (menuOption === "4") {
-            return <AddProviderForm />
+            return <AddProviderForm userId={userId} />
           }
         }()}
       </Box>
