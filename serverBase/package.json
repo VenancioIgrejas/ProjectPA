@@ -8,11 +8,12 @@
       "typescript": "3.3.3333"
    },
    "dependencies": {
-      "typeorm": "0.2.32",
+      "body-parser": "^1.18.1",
+      "cors": "^2.8.5",
+      "express": "^4.15.4",
       "reflect-metadata": "^0.1.10",
       "sqlite3": "^4.0.3",
-      "express": "^4.15.4",
-      "body-parser": "^1.18.1"
+      "typeorm": "0.2.32"
    },
    "scripts": {
       "start": "ts-node ./src/index.ts",

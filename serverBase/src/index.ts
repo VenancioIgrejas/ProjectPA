@@ -1,14 +1,15 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import { createConnection } from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import {Request, Response} from "express";
-import {Routes} from "./routes";
+import * as cors from 'cors';
+import { Request, Response } from "express";
+import { Routes } from "./routes";
 
-import {User} from "./entity/User";
-import {Category} from "./entity/Category";
-import {Product} from "./entity/Product";
-import {Provider} from "./entity/Provider";
+import { User } from "./entity/User";
+import { Category } from "./entity/Category";
+import { Product } from "./entity/Product";
+import { Provider } from "./entity/Provider";
 
 
 
@@ -16,6 +17,8 @@ createConnection().then(async connection => {
 
     // create express app
     const app = express();
+    app.use(cors());
+    app.options('*', cors());
     app.use(bodyParser.json());
 
     // register express routes from defined application routes
