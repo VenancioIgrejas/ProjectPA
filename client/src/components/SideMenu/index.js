@@ -13,6 +13,7 @@ function SideMenu({ selected, setSelected }) {
         <Radio value="3">Registrar venda</Radio>
         <Radio value="4">Adicionar fornecedor</Radio>
         <Radio value="5">Lista de fornecedores</Radio>
+        <Radio value="6">Adicionar categoria</Radio>
       </Stack>
     </RadioGroup>
   </Flex>

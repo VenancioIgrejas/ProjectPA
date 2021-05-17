@@ -12,6 +12,9 @@ import { Textarea } from '@chakra-ui/textarea';
 import api from '../../services/api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NumberInputStepper } from '@chakra-ui/number-input';
+import { NumberIncrementStepper } from '@chakra-ui/number-input';
+import { NumberDecrementStepper } from '@chakra-ui/number-input';
 
 
 function AddProviderForm({ userId }) {
@@ -32,8 +35,6 @@ function AddProviderForm({ userId }) {
           .catch((e) => toast.error('Ocorreu um erro'));
         actions.setSubmitting(false);
         actions.resetForm();
-        let celInput = document.getElementById("cel");
-        celInput.value = "";
       }}
     >
       {(props) => (
@@ -61,8 +62,12 @@ function AddProviderForm({ userId }) {
               {({ field, form }) => (
                 <FormControl isRequired isInvalid={form.errors.per_price && form.touched.per_price}>
                   <FormLabel htmlFor="per_price">Porcentagem adquirida por venda</FormLabel>
-                  <NumberInput value={field.value} >
+                  <NumberInput min={0} max={1} precision={2} step={0.1} value={field.value} onChange={value => form.setFieldValue(field.name, value)}>
                     <NumberInputField {...field} id="per_price" placeholder={0.5} />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
                   </NumberInput>
                   <FormErrorMessage>{form.errors.per_price}</FormErrorMessage>
                 </FormControl>

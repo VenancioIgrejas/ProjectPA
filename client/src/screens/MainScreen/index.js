@@ -1,10 +1,12 @@
 import { useDisclosure } from '@chakra-ui/hooks';
 import { Box, Flex } from '@chakra-ui/layout';
 import React, { useState } from 'react';
+import AddCategoryForm from '../../components/AddCategoryForm';
 import AddProductForm from '../../components/AddProductForm';
 import AddProviderForm from '../../components/AddProviderForm';
 import ProductModal from '../../components/ProductModal';
 import ProductsList from '../../components/ProductsList';
+import ProvidersList from '../../components/ProvidersList';
 import SideMenu from '../../components/SideMenu';
 
 
@@ -19,7 +21,7 @@ function MainScreen() {
       <SideMenu selected={menuOption} setSelected={setMenuOption} />
       <Box
         marginTop='auto'
-        width="60%"
+        width="65%"
         height="100%"
         overflowY='auto'
         bg="gray.50"
@@ -51,6 +53,12 @@ function MainScreen() {
           }
           if (menuOption === "4") {
             return <AddProviderForm userId={userId} />
+          }
+          if (menuOption === "5") {
+            return <ProvidersList />
+          }
+          if (menuOption === "6") {
+            return <AddCategoryForm userId={userId} />
           }
         }()}
       </Box>

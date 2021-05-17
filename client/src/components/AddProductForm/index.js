@@ -56,11 +56,10 @@ function AddProductForm({ userId }) {
       initialValues={{ name: "", category: "", price: "", quantity: 1, provider: "", comment: "", date_in: "" }}
       validationSchema={AddProductSchema}
       onSubmit={(values, actions) => {
-        alert(JSON.stringify(values, null, 2));
-        console.log("enviando: ", { ...values, userId: userId });
         api.post('/product', { ...values, userId })
           .then(resp => toast.success("Registro criado com sucesso"))
           .catch(e => toast.error('Ocorre um erro'));
+        actions.resetForm();
         actions.setSubmitting(false);
       }}
     >
@@ -95,7 +94,7 @@ function AddProductForm({ userId }) {
                   <FormLabel htmlFor="price">Preço</FormLabel>
                   <InputGroup {...field}>
                     <InputLeftAddon children="R$" />
-                    <NumberInput precision={2} min={0} id="mytest">
+                    <NumberInput precision={2} min={0} value={field.value} onChange={(value) => form.setFieldValue(field.name, value)}>
                       <NumberInputField placeholder="3.14" {...field} id="price" />
                     </NumberInput>
                   </InputGroup>
@@ -107,7 +106,7 @@ function AddProductForm({ userId }) {
               {({ field, form }) => (
                 <FormControl isRequired isInvalid={form.errors.quantity && form.touched.quantity}>
                   <FormLabel htmlFor="quantity">Quantidade</FormLabel>
-                  <NumberInput precision={0} min={0} defaultValue={1} onChange={(value) => form.setFieldValue("quantity", value)} >
+                  <NumberInput precision={0} min={0} defaultValue={1} value={field.value} onChange={(value) => form.setFieldValue(field.name, value)}>
                     <NumberInputField {...field} id="quantity" />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
