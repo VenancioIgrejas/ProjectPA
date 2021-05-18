@@ -1,0 +1,21 @@
+version: '3'
+services:
+  nodejs-server:
+    build:
+      context: ./serverBase
+    ports:
+      - "3001:3001"
+    container_name: node-api
+    volumes:
+       - ./serverBase:/usr/src/app/serverBase
+       - /usr/src/app/serverBase/node_modules
+  react-ui:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    container_name: react-ui
+    stdin_open: true
+    volumes:
+       - ./client:/usr/src/app/client
+       - /usr/src/app/client/node_modules
