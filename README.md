@@ -2,16 +2,6 @@
 
 ## Utilizando container:
 
-`cd serverBase`
-
-`npm install`
-
-`npm run typeorm-migration-generate`
-
-`npm run typeorm-migration-run`
-
-`cd ..`
-
 `sudo docker-compose up --build`
 
 ## Não utilizando container:
