@@ -1,11 +1,13 @@
-FROM node:alpine
+FROM node:10
 
-WORKDIR /usr/src/app/client
+WORKDIR /usr/src/app/serverBase
 
-COPY package*.json ./
+COPY . .
 
-RUN yarn install
+RUN npm install
+RUN npm run typeorm-migration-generate
+RUN npm run typeorm-migration-run
 
-EXPOSE 3000
+EXPOSE 3001
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
