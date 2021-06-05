@@ -20,8 +20,11 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import AuthenticationButton from "components/authentication/authentication-button";
 
 const useStyles = makeStyles(styles);
+
+
 
 export default function AdminNavbarLinks() {
   const classes = useStyles();
@@ -156,7 +159,7 @@ export default function AdminNavbarLinks() {
         </Poppers>
       </div>
       <div className={classes.manager}>
-        <Button
+        {/* <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
           simple={!(window.innerWidth > 959)}
@@ -169,7 +172,9 @@ export default function AdminNavbarLinks() {
           <Hidden mdUp implementation="css">
             <p className={classes.linkText}>Profile</p>
           </Hidden>
-        </Button>
+          
+        </Button> */}
+        <AuthenticationButton/>
         <Poppers
           open={Boolean(openProfile)}
           anchorEl={openProfile}
