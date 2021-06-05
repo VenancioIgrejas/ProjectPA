@@ -8,6 +8,7 @@ import ProductModal from '../../components/ProductModal';
 import ProductsList from '../../components/ProductsList';
 import ProvidersList from '../../components/ProvidersList';
 import SideMenu from '../../components/SideMenu';
+import Profile from '../../views/profile.js'
 
 
 function MainScreen() {
@@ -59,6 +60,9 @@ function MainScreen() {
           }
           if (menuOption === "6") {
             return <AddCategoryForm userId={userId} />
+          }
+          if (menuOption === "7") {
+            return <Profile/>
           }
         }()}
       </Box>
