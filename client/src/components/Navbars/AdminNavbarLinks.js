@@ -21,6 +21,7 @@ import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import AuthenticationButton from "components/authentication/authentication-button";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const useStyles = makeStyles(styles);
 
@@ -28,6 +29,8 @@ const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
   const classes = useStyles();
+  const { user, isAuthenticated } = useAuth0();
+
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
   const handleClickNotification = (event) => {
@@ -52,6 +55,11 @@ export default function AdminNavbarLinks() {
   };
   return (
     <div>
+      <div className={classes.manager}>
+      {isAuthenticated ? (
+          <p>Olá, {user.nickname}</p>
+        ):("")}
+      </div>
       {/*
       <div className={classes.searchWrapper}>
         <CustomInput
@@ -177,7 +185,7 @@ export default function AdminNavbarLinks() {
           </Hidden>
           
         </Button> */}
-        <AuthenticationButton/>
+        <AuthenticationButton />
         <Poppers
           open={Boolean(openProfile)}
           anchorEl={openProfile}
