@@ -52,6 +52,7 @@ export default function AdminNavbarLinks() {
   };
   return (
     <div>
+      {/*
       <div className={classes.searchWrapper}>
         <CustomInput
           formControlProps={{
@@ -80,6 +81,7 @@ export default function AdminNavbarLinks() {
           <p className={classes.linkText}>Dashboard</p>
         </Hidden>
       </Button>
+      
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -158,6 +160,7 @@ export default function AdminNavbarLinks() {
           )}
         </Poppers>
       </div>
+      */}
       <div className={classes.manager}>
         {/* <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
