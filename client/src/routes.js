@@ -47,7 +47,7 @@ const dashboardRoutes = [
   },
   {
     path: "/user",
-    name: "User Profile",
+    name: "Adicionar Fornecedor",
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: UserProfile,
