@@ -5,8 +5,12 @@ import {User} from "../entity/User";
 export class UserController {
 
     private userRepository = getRepository(User);
+    private secred = process.env.REACT_APP_AUTH0_SECRET;
 
     async all(request: Request, response: Response, next: NextFunction) {
+        const auth = request.get("Authorization");
+        // console.log(auth);
+        console.log(this.secred);
         return this.userRepository.find();
     }
 

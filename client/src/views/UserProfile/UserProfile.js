@@ -40,7 +40,10 @@ const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
 
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+
+  const [userMetadata, setUserMetadata] = useState(null);
 
   const [name, setName] = useState("");
   const [tel, setTel] = useState("");
@@ -49,10 +52,41 @@ export default function UserProfile() {
 
   const classes = useStyles();
 
+  // if (isAuthenticated) {
+  //   getAccessTokenSilently().then((value) => console.log(value));
+  // }
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+
+    var data = {
+      name:name,
+      tel:tel,
+      per:per,
+      info:info
+    }
+
+    getAccessTokenSilently()
+      .then((accessToken) => {
+        return fetch("http://localhost:3001/users", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+      })
+      .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+      .then(obj => console.log(obj));
+
+    // fetch("http://localhost:3001/users", {
+    //   headers: {
+    //     Authorization: `Bearer ${accessToken}`,
+    //   },
+    // })
+    //   .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+    //   .then(obj => console.log(obj));
+
     var st = `${name} : ${tel} : ${per} : ${info}`;
-    alert(st);
+    // alert(st);
   }
 
   if (!isAuthenticated) {
@@ -69,9 +103,7 @@ export default function UserProfile() {
         </GridContainer>
       </div>
     );
-    // return <div>Loading ...</div>;
   }
-
 
   return (
     <form onSubmit={handleSubmit}>
