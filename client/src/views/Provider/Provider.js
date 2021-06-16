@@ -54,7 +54,7 @@ export default function Provider() {
   const [telPatter, setTelPatter] = useState(false);
   
   
-  const [per, setPer] = useState("");
+  const [per, setPer] = useState("0.2");
   const [perPatter, setPerPatter] = useState(false);
 
   
@@ -187,7 +187,6 @@ export default function Provider() {
                       onBlur={(evt) => 
                         validadePer()
                       }
-                      typeInput="tel"
                       success={perPatter}
                       error={!perPatter}
                     />

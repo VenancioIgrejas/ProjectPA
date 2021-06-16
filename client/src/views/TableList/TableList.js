@@ -115,9 +115,12 @@ export default function TableList() {
           , d.Category.name
           , d.Provider.name
           ,`R$ ${d.price.toString().replace(".",",")}`
+          ,`R$ ${(d.Provider.per_price*d.price*d.quantity).toString().replace(".",",")}`
+          ,`R$ ${((1 - d.Provider.per_price)*d.price*d.quantity).toString().replace(".",",")}`
           ,d.quantity
           , new Date(d.date_in).toLocaleDateString()
-          ,d.comment]);
+          ,d.comment
+          ]);
 
         setIsLoadingProduct(false);
       })
@@ -159,9 +162,16 @@ export default function TableList() {
             ) : (
               <Table
                 tableHeaderColor="primary"
-                tableHead={["Nome", "Categoria", "Fornecedor"
-                  , "Valor (R$)", "Quantidade", "Data de Entrada"
-                  , "Comentário"]}
+                tableHead={["Nome"
+                  , "Categoria"
+                  , "Fornecedor"
+                  , "Valor (R$)"
+                  , "Total do Fornecedor (R$)"
+                  , "Lucro(R$)"
+                  , "Quantidade"
+                  , "Data de Entrada"
+                  , "Comentário"
+                  ]}
                 tableData={arrProduct}
               />
             )}
