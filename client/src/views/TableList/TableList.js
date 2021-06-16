@@ -58,6 +58,7 @@ export default function TableList() {
 
   useEffect(() => {
 
+    if(isAuthenticated){
     getAccessTokenSilently()
       .then((accessToken) => {
         return fetch("http://localhost:3001/category", {
@@ -114,7 +115,8 @@ export default function TableList() {
         arrProduct = obj.map((d) => [d.name
           , d.Category.name
           , d.Provider.name
-          ,`R$ ${d.price.toString().replace(".",",")}`
+          ,`R$ ${(d.price).toString().replace(".",",")}`
+          ,`R$ ${(d.price*d.quantity).toString().replace(".",",")}`
           ,`R$ ${(d.Provider.per_price*d.price*d.quantity).toString().replace(".",",")}`
           ,`R$ ${((1 - d.Provider.per_price)*d.price*d.quantity).toString().replace(".",",")}`
           ,d.quantity
@@ -127,6 +129,7 @@ export default function TableList() {
       .catch((err) => {
         alert(err);
       });
+    }
 
   }, [getAccessTokenSilently]);
 
@@ -166,6 +169,7 @@ export default function TableList() {
                   , "Categoria"
                   , "Fornecedor"
                   , "Valor (R$)"
+                  , "Valor Total(R$)"
                   , "Total do Fornecedor (R$)"
                   , "Lucro(R$)"
                   , "Quantidade"

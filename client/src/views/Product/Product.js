@@ -70,6 +70,7 @@ export default function Product() {
 
   useEffect(() => {
 
+    if(isAuthenticated){
     getAccessTokenSilently()
       .then((accessToken) => {
         return fetch("http://localhost:3001/category", {
@@ -106,8 +107,8 @@ export default function Product() {
       })
       .catch((err) => {
         alert(err);
-      });;
-
+      });
+    }
 
     
   }, [getAccessTokenSilently]);
