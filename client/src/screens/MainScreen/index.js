@@ -1,5 +1,6 @@
 import { useDisclosure } from '@chakra-ui/hooks';
-import { Box, Flex } from '@chakra-ui/layout';
+import { Box, Flex, Stack, Text } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/button';
 import React, { useState } from 'react';
 import AddCategoryForm from '../../components/AddCategoryForm';
 import AddProductForm from '../../components/AddProductForm';
@@ -13,11 +14,10 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react"
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 
 function MainScreen() {
@@ -26,14 +26,20 @@ function MainScreen() {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [menuOption, setMenuOption] = useState("Lista de vendas");
   const [userId, setUserId] = useState(1);
+  const { loginWithRedirect, isAuthenticated, isLoading, logout } = useAuth0();
 
   return (
     <>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" style={{ justifyContent: 'space-between' }}>
         <Navbar.Brand href="#home">
           {' '}
           Breshow
         </Navbar.Brand>
+        {isAuthenticated ?
+          <Button onClick={logout} >Log out</Button>
+          :
+          null
+        }
       </Navbar>
       <Flex height="90vh" flexDirection="column" alignItems="center" paddingX={10} >
         <Flex width="100%" height="90%" marginTop="auto">
@@ -83,11 +89,21 @@ function MainScreen() {
           </Box>
         </Flex>
         <ProductModal isOpen={isOpen} onClose={onClose} product={selectedProduct} />
-        <Modal onClose={logOnClose} size='sm' isOpen={true}>
+        <Modal onClose={logOnClose} size='sm' isOpen={!isAuthenticated}>
           <ModalOverlay />
           <ModalContent>
             <ModalBody>
-              Por favor, faça login
+              <Stack>
+                <Text>
+                  Por favor, faça login
+                </Text>
+                <Button
+                  isLoading={isLoading}
+                  onClick={() => loginWithRedirect()}
+                >
+                  Login
+                </Button>
+              </Stack>
             </ModalBody>
           </ModalContent>
         </Modal>
