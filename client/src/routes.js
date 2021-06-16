@@ -27,6 +27,7 @@ import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import ListIcon from '@material-ui/icons/List';
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
@@ -40,6 +41,7 @@ import NotificationsPage from "views/Notifications/Notifications.js";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
 import Category from "views/Category/Category";
+import Product from "views/Product/Product";
 
 const dashboardRoutes = [
   {
@@ -71,14 +73,14 @@ const dashboardRoutes = [
     name: "Adicionar Produto",
     rtlName: "ملف تعريفي للمستخدم",
     icon: AddShoppingCartIcon,
-    component: Provider,
+    component: Product,
     layout: "/admin",
   },
   {
     path: "/table",
-    name: "Table List",
+    name: "Listar Informações",
     rtlName: "قائمة الجدول",
-    icon: "content_paste",
+    icon: ListIcon,
     component: TableList,
     layout: "/admin",
   },

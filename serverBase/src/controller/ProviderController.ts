@@ -3,15 +3,19 @@ import {NextFunction, Request, Response} from "express";
 import {BaseController} from "./BaseController"
 
 import {Provider} from "../entity/Provider";
-import {User} from "../entity/User";
 
 export class ProviderController extends BaseController{
 
     private productRepository = getRepository(Provider);
-    private userRepository = getRepository(User);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.productRepository.find({ relations: ["User"] });
+        //Verifica se o usuario está authenticado
+        this.verifyJWT(request, function(err, decoded){
+            if(err) return response.status(500).json({ auth: false, message: err });
+        });
+
+        var UserId = this.getUserId(request);
+        return this.productRepository.find({where:{"UserId":UserId}});
     }
 
     async one(request: Request, response: Response, next: NextFunction) {

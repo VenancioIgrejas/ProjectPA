@@ -1,5 +1,4 @@
 import {Entity, PrimaryGeneratedColumn, Column, Double, ManyToOne, JoinColumn} from "typeorm";
-import {User} from "./User";
 import {Category} from "./Category";
 import {Provider} from "./Provider";
 
@@ -9,9 +8,8 @@ export class Product {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(type => User)
-    @JoinColumn()
-    User: User;
+    @Column()
+    UserId: string;
 
     @Column()
     name: string;

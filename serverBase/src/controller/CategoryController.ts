@@ -9,7 +9,13 @@ export class CategoryController extends BaseController{
     private categoryRepository = getRepository(Category);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.categoryRepository.find({ relations: ["User"] });
+        //Verifica se o usuario está authenticado
+        this.verifyJWT(request, function(err, decoded){
+            if(err) return response.status(500).json({ auth: false, message: err });
+        });
+
+        var UserId = this.getUserId(request);
+        return this.categoryRepository.find({where:{"UserId":UserId}});
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
