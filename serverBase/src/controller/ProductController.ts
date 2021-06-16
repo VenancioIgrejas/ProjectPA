@@ -58,4 +58,22 @@ export class ProductController extends BaseController {
         await this.productRepository.remove(userToRemove);
     }
 
+    async allTable(request: Request, response: Response, next: NextFunction) {
+        //Verifica se o usuario está authenticado
+        this.verifyJWT(request, function (err, decoded) {
+            if (err) return response.status(500).json({ auth: false, message: err });
+        });
+
+        var userId = this.getUserId(request);
+        
+        return this.productRepository
+                    .find({ where:{"UserId":userId},relations: ["Provider", "Category"] })
+                    .catch((err: any) => {
+                        response.status(500).send({ message: err })
+                    });
+
+        
+
+    }
+
 }

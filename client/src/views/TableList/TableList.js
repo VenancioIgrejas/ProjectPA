@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -8,6 +8,8 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+
+import { useAuth0 } from "@auth0/auth0-react";
 
 const styles = {
   cardCategoryWhite: {
@@ -41,69 +43,171 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+var arrCaterogy = [];
+var arrProvider = [];
+var arrProduct = [];
+
 export default function TableList() {
   const classes = useStyles();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+
+  const [isLoadingProvider, setIsLoadingProvider] = useState(true);
+  const [isLoadingProduct, setIsLoadingProduct] = useState(true);
+  const [isLoadingCategory, setIsLoadingCategory] = useState(true);
+
+
+  useEffect(() => {
+
+    getAccessTokenSilently()
+      .then((accessToken) => {
+        return fetch("http://localhost:3001/category", {
+
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+      })
+      .then(r => { return r.json() })
+      .then(obj => {
+        arrCaterogy = obj.map((d) => [d.name]);
+        setIsLoadingCategory(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });;
+
+    getAccessTokenSilently()
+      .then((accessToken) => {
+        return fetch("http://localhost:3001/provider", {
+
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+      })
+      .then(r => { return r.json() })
+      .then(obj => {
+        arrProvider = obj.map((d) => [d.name, d.cel, d.info, d.per_price]);
+        setIsLoadingProvider(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });;
+
+    getAccessTokenSilently()
+      .then((accessToken) => {
+        return fetch("http://localhost:3001/productTable", {
+
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+      })
+      .then(r => { return r.json() })
+      .then(obj => {
+        arrProduct = obj.map((d) => [d.name
+          , d.Category.name
+          , d.Provider.name
+          ,`R$ ${d.price.toString().replace(".",",")}`
+          ,d.quantity
+          , new Date(d.date_in).toLocaleDateString()
+          ,d.comment]);
+
+        setIsLoadingProduct(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+
+  }, [getAccessTokenSilently]);
+
+  if (!isAuthenticated) {
+    return (
+      <div>
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card>
+              <CardBody textAlign='center'>
+                <h4 >Faça o Login Primeiramente</h4>
+              </CardBody>
+            </Card>
+          </GridItem>
+        </GridContainer>
+      </div>
+    );
+  }
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
+            <h4 className={classes.cardTitleWhite}>Tabela dos Produtos</h4>
             <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
+              Tabela que informa todos os produtos do usuário
             </p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"],
-              ]}
-            />
+            {isLoadingProduct ? (
+              <h4 >Carregando...</h4>
+            ) : (
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Nome", "Categoria", "Fornecedor"
+                  , "Valor (R$)", "Quantidade", "Data de Entrada"
+                  , "Comentário"]}
+                tableData={arrProduct}
+              />
+            )}
           </CardBody>
         </Card>
       </GridItem>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Table on Plain Background
-            </h4>
+      <GridItem xs={12} sm={12} md={4}>
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Tabela das Categorias</h4>
             <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
+              Tabela que informa todos as categorias criadas pelo usuário
             </p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["ID", "Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                [
-                  "4",
-                  "Philip Chaney",
-                  "$38,735",
-                  "Korea, South",
-                  "Overland Park",
-                ],
-                [
-                  "5",
-                  "Doris Greene",
-                  "$63,542",
-                  "Malawi",
-                  "Feldkirchen in Kärnten",
-                ],
-                ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"],
-              ]}
-            />
+            {isLoadingCategory ? (
+              <h4 >Carregando...</h4>
+            ) : (
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Nome"]}
+                tableData={arrCaterogy}
+              />
+            )}
+
+          </CardBody>
+        </Card>
+      </GridItem>
+      <GridItem xs={12} sm={12} md={8}>
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Tabela dos Fornecedores</h4>
+            <p className={classes.cardCategoryWhite}>
+              Tabela que informa todos os fornecedores adicionados pelo usuário
+            </p>
+          </CardHeader>
+          <CardBody>
+            {isLoadingProvider ? (
+              <h4 >Carregando...</h4>
+            ) : (
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Nome", "Telefone", "Informação", "Porcentagem"]}
+                tableData={arrProvider}
+              />
+            )}
           </CardBody>
         </Card>
       </GridItem>

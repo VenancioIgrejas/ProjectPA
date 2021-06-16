@@ -86,5 +86,10 @@ export const Routes = [
     route: "/product/:id",
     controller: ProductController,
     action: "remove"
+}, {
+    method: "get",
+    route: "/productTable",
+    controller: ProductController,
+    action: "allTable"
 }
 ];
