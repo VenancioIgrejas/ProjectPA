@@ -1,23 +1,67 @@
-import { Flex, Stack } from '@chakra-ui/layout';
-import { Radio, RadioGroup } from '@chakra-ui/radio';
+import { Flex, Stack, Box } from '@chakra-ui/layout';
+import { useRadio, useRadioGroup } from '@chakra-ui/radio';
 import React from 'react';
+
 
 // import { Container } from './styles';
 
 function SideMenu({ selected, setSelected }) {
-  return (<Flex bg="gray.50" width="17%" padding={5} borderRadius={5}>
-    <RadioGroup onChange={setSelected} value={selected}>
-      <Stack direction="column">
-        <Radio value="1">Lista de vendas</Radio>
-        <Radio value="2">Gráfico de vendas</Radio>
-        <Radio value="3">Registrar venda</Radio>
-        <Radio value="4">Adicionar fornecedor</Radio>
-        <Radio value="5">Lista de fornecedores</Radio>
-        <Radio value="6">Adicionar categoria</Radio>
+  const options = ["Lista de vendas", "Gráfico de vendas", "Registrar venda", "Adicionar fornecedor", "Lista de fornecedores", "Adicionar categoria"];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "side_menu",
+    defaultValue: "Lista de vendas",
+    onChange: setSelected,
+    value: selected,
+  });
+
+  const group = getRootProps();
+
+  return (
+    <Flex bg="gray.50" padding={5} borderRadius={5}>
+      <Stack {...group}>
+        {options.map((value) => {
+          const radio = getRadioProps({ value })
+          return (
+            <RadioCard key={value} {...radio}>
+              {value}
+            </RadioCard>
+          )
+        })}
       </Stack>
-    </RadioGroup>
-  </Flex>
+    </Flex>
   );
+}
+
+function RadioCard(props) {
+  const { getInputProps, getCheckboxProps } = useRadio(props)
+
+  const input = getInputProps()
+  const checkbox = getCheckboxProps()
+
+  return (
+    <Box as="label">
+      <input {...input} />
+      <Box
+        {...checkbox}
+        cursor="pointer"
+        borderWidth="1px"
+        borderRadius="md"
+        _checked={{
+          bg: "teal.600",
+          color: "white",
+          borderColor: "teal.600",
+        }}
+        _focus={{
+          boxShadow: "outline",
+        }}
+        px={5}
+        py={3}
+      >
+        {props.children}
+      </Box>
+    </Box>
+  )
 }
 
 export default SideMenu;
