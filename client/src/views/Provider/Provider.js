@@ -183,7 +183,6 @@ export default function Provider() {
                         fullWidth: true,
                       }}
                       onChange={(evt) => setPer(evt.target.value)}
-                      typeInput="number"
                       onBlur={(evt) => 
                         validadePer()
                       }
