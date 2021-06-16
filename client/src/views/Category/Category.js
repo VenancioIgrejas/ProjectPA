@@ -12,6 +12,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import SimpleModal from "components/Alert/alert.js"
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -38,18 +39,25 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function UserProfile() {
+export default function Category() {
 
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 
   const [userMetadata, setUserMetadata] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
-  const [tel, setTel] = useState("");
-  const [per, setPer] = useState("");
   const [info, setInfo] = useState("");
 
+  const [tel, setTel] = useState("");
+  const [telPatter, setTelPatter] = useState(false);
+  
+  
+  const [per, setPer] = useState("");
+  const [perPatter, setPerPatter] = useState(false);
+
+  
   const classes = useStyles();
 
   // if (isAuthenticated) {
@@ -59,34 +67,40 @@ export default function UserProfile() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    var data = {
-      name:name,
-      tel:tel,
-      per:per,
-      info:info
+    if(name == null || name == ""){
+      alert("Nome precisa ser preenchido")
+      return
     }
+
+    //TODO: validacao dos componentes
+    var data = {
+      name:name
+    }
+
+    setOpen(true);
 
     getAccessTokenSilently()
       .then((accessToken) => {
-        return fetch("http://localhost:3001/users", {
+        return fetch("http://localhost:3001/category", {
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
           },
+          body: JSON.stringify(data)
         })
       })
       .then(r =>  r.json().then(data => ({status: r.status, body: data})))
-      .then(obj => console.log(obj));
-
-    // fetch("http://localhost:3001/users", {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`,
-    //   },
-    // })
-    //   .then(r =>  r.json().then(data => ({status: r.status, body: data})))
-    //   .then(obj => console.log(obj));
-
-    var st = `${name} : ${tel} : ${per} : ${info}`;
-    // alert(st);
+      .then(obj => {
+        setOpen(false);
+        var textReturn = obj.status == 200 ? "Dados Salvo com sucesso" : `Erro: ${obj.body}`;
+        alert(textReturn);
+      })
+      .catch((err) => {
+        setOpen(false);
+        alert(err);
+      });
   }
 
   if (!isAuthenticated) {
@@ -112,7 +126,7 @@ export default function UserProfile() {
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Adicionar Fornecedor</h4>
+                <h4 className={classes.cardTitleWhite}>Adicionar Categoria</h4>
                 {/* <p className={classes.cardCategoryWhite}>Complete your profile</p> */}
               </CardHeader>
               <CardBody>
@@ -127,51 +141,18 @@ export default function UserProfile() {
                       onChange={(evt) => setName(evt.target.value)}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Telefone"
-                      id="cel"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(evt) => setTel(evt.target.value)}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={3}>
-                    <CustomInput
-                      labelText="Porcentagem sobre o produto"
-                      id="percentage"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(evt) => setPer(evt.target.value)}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel style={{ color: "#AAAAAA" }}>Informação</InputLabel>
-                    <CustomInput
-                      labelText="Informação sobre o fornecedor"
-                      id="about-me"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      inputProps={{
-                        multiline: true,
-                        rows: 5
-                      }}
-                      onChange={(evt) => setInfo(evt.target.value)}
-                    />
-                  </GridItem>
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button type="submit" color="primary">Adicionar Fornecedor</Button>
+                <Button type="submit" color="primary">Adicionar Categoria</Button>
               </CardFooter>
             </Card>
           </GridItem>
         </GridContainer>
+        <SimpleModal
+          open={open}
+          textLabel="Processando"
+          />
       </div>
     </form>
   );

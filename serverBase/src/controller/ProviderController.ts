@@ -1,10 +1,11 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
+import {BaseController} from "./BaseController"
 
 import {Provider} from "../entity/Provider";
 import {User} from "../entity/User";
 
-export class ProviderController {
+export class ProviderController extends BaseController{
 
     private productRepository = getRepository(Provider);
     private userRepository = getRepository(User);
@@ -20,22 +21,29 @@ export class ProviderController {
                                 });
     }
 
-    async save({body:{name,cel,info,per_price,userId}}: Request, response: Response, next: NextFunction) {
-        const provider = new Provider();
-        provider.name = name;
-        provider.cel = cel;
-        provider.info = info;
-        provider.per_price = per_price;
+    async save(request: Request, response: Response, next: NextFunction) {
+        
+        //Verifica se o usuario está authenticado
+        this.verifyJWT(request, function(err, decoded){
+            if(err) return response.status(500).json({ auth: false, message: err });
+        });
 
-        return this.userRepository.findOne(userId)
-                        .then(user => {
-                            provider.User = user;
-                            this.productRepository.save(provider);
-                        })
-                        .then(category => response.status(200).send({ message: 'ok' }))
-                        .catch((err: any) => {
-                            response.status(500).send({ message: err })
-                        });
+        var data = request.body;
+        data.UserId = this.getUserId(request);
+
+        var provider = new Provider();
+        provider.UserId = data.UserId;
+
+        provider.name = data.name;
+        provider.info = data.info;
+        provider.cel = data.cel;
+        provider.per_price = data.per_price;
+        
+        return this.productRepository.save(provider)
+                                    .then(obj => response.status(200).send({ message: 'Fornecedor Adicionado' }))
+                                    .catch((err: any) => {
+                                        response.status(500).send({ message: err })
+                                    });
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {

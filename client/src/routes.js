@@ -18,15 +18,19 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import CategoryIcon from '@material-ui/icons/Category';
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
+import PersonPinIcon from '@material-ui/icons/PersonPin';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
+import Provider from "views/Provider/Provider.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
@@ -35,6 +39,7 @@ import NotificationsPage from "views/Notifications/Notifications.js";
 // import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
+import Category from "views/Category/Category";
 
 const dashboardRoutes = [
   {
@@ -46,11 +51,27 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/user",
+    path: "/provider",
     name: "Adicionar Fornecedor",
     rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
+    icon: PersonPinIcon,
+    component: Provider,
+    layout: "/admin",
+  },
+  {
+    path: "/category",
+    name: "Adicionar Categoria",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: CategoryIcon,
+    component: Category,
+    layout: "/admin",
+  },
+  {
+    path: "/product",
+    name: "Adicionar Produto",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: AddShoppingCartIcon,
+    component: Provider,
     layout: "/admin",
   },
   {
@@ -61,46 +82,46 @@ const dashboardRoutes = [
     component: TableList,
     layout: "/admin",
   },
-  {
-    path: "/typography",
-    name: "Typography",
-    rtlName: "طباعة",
-    icon: LibraryBooks,
-    component: Typography,
-    layout: "/admin",
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "الرموز",
-    icon: BubbleChart,
-    component: Icons,
-    layout: "/admin",
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    rtlName: "خرائط",
-    icon: LocationOn,
-    component: Maps,
-    layout: "/admin",
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: Notifications,
-    component: NotificationsPage,
-    layout: "/admin",
-  },
-  {
-    path: "/rtl-page",
-    name: "RTL Support",
-    rtlName: "پشتیبانی از راست به چپ",
-    icon: Language,
-    component: RTLPage,
-    layout: "/rtl",
-  },
+  // {
+  //   path: "/typography",
+  //   name: "Typography",
+  //   rtlName: "طباعة",
+  //   icon: LibraryBooks,
+  //   component: Typography,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/icons",
+  //   name: "Icons",
+  //   rtlName: "الرموز",
+  //   icon: BubbleChart,
+  //   component: Icons,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/maps",
+  //   name: "Maps",
+  //   rtlName: "خرائط",
+  //   icon: LocationOn,
+  //   component: Maps,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/notifications",
+  //   name: "Notifications",
+  //   rtlName: "إخطارات",
+  //   icon: Notifications,
+  //   component: NotificationsPage,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/rtl-page",
+  //   name: "RTL Support",
+  //   rtlName: "پشتیبانی از راست به چپ",
+  //   icon: Language,
+  //   component: RTLPage,
+  //   layout: "/rtl",
+  // },
   // {
   //   path: "/upgrade-to-pro",
   //   name: "Upgrade To PRO",

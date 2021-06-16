@@ -25,7 +25,9 @@ export default function CustomInput(props) {
     error,
     success,
     rtlActive,
-    onChange
+    typeInput,
+    onChange,
+    onBlur
   } = props;
 
   const labelClasses = classNames({
@@ -71,7 +73,9 @@ export default function CustomInput(props) {
         id={id}
         {...inputProps}
         inputProps={newInputProps}
+        type={typeInput}
         onChange={onChange}
+        onBlur={onBlur}
       />
       {error ? (
         <Clear className={classes.feedback + " " + classes.labelRootError} />
