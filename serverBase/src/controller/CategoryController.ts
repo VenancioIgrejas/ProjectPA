@@ -1,15 +1,21 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
-import {Category} from "../entity/Category";
-import {User} from "../entity/User";
 
-export class CategoryController {
+import {BaseController} from "./BaseController";
+import {Category} from "../entity/Category";
+
+export class CategoryController extends BaseController{
 
     private categoryRepository = getRepository(Category);
-    private userRepository = getRepository(User);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.categoryRepository.find({ relations: ["User"] });
+        //Verifica se o usuario está authenticado
+        this.verifyJWT(request, function(err, decoded){
+            if(err) return response.status(500).json({ auth: false, message: err });
+        });
+
+        var UserId = this.getUserId(request);
+        return this.categoryRepository.find({where:{"UserId":UserId}});
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -17,19 +23,24 @@ export class CategoryController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const category = new Category();
-        category.name = request.body.name;
+        //Verifica se o usuario está authenticado
+        this.verifyJWT(request, function(err, decoded){
+            if(err) return response.status(500).json({ auth: false, message: err });
+        });
 
-        return this.userRepository.findOne(request.body.userId)
-                        .then(user => {
-                            console.log(category.User); 
-                            category.User = user;
-                            this.categoryRepository.save(category);
-                        })
-                        .then(category => response.status(200).send({ message: 'ok' }))
-                        .catch((err: any) => {
-                            response.status(500).send({ message: err })
-                        });
+        var data = request.body;
+        data.UserId = this.getUserId(request);
+
+        var provider = new Category();
+        
+        provider.UserId = data.UserId;
+        provider.name = data.name;
+        
+        return this.categoryRepository.save(provider)
+                                    .then(obj => response.status(200).send({ message: 'Fornecedor Adicionado' }))
+                                    .catch((err: any) => {
+                                        response.status(500).send({ message: err })
+                                    });
 
     }
 

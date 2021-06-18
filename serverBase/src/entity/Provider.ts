@@ -1,5 +1,4 @@
 import {Entity, PrimaryGeneratedColumn, Column, Double, ManyToOne, JoinColumn} from "typeorm";
-import {User} from "./User";
 
 @Entity()
 export class Provider {
@@ -7,9 +6,8 @@ export class Provider {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(type => User)
-    @JoinColumn()
-    User: User;
+    @Column()
+    UserId: string;
 
     @Column()
     name: string;

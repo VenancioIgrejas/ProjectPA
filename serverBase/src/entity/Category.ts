@@ -1,5 +1,4 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne} from "typeorm";
-import {User} from "./User";
 
 @Entity()
 export class Category {
@@ -7,9 +6,8 @@ export class Category {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(type => User)
-    @JoinColumn()
-    User: User;
+    @Column()
+    UserId: string;
 
     @Column()
     name: string;

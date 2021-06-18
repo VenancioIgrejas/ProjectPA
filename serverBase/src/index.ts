@@ -6,7 +6,6 @@ import * as cors from 'cors';
 import { Request, Response } from "express";
 import { Routes } from "./routes";
 
-import { User } from "./entity/User";
 import { Category } from "./entity/Category";
 import { Product } from "./entity/Product";
 import { Provider } from "./entity/Provider";

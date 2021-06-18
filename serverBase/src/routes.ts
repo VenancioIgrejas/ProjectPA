@@ -1,39 +1,9 @@
-import {UserController} from "./controller/UserController";
 import {ProductController} from "./controller/ProductController";
 import {ProviderController} from "./controller/ProviderController";
 import {CategoryController} from "./controller/CategoryController";
 
 
 export const Routes = [
-    
- // routes for Users
- //
-//For save: json ->
-//{name:String,password:int}
-//
-    {
-    method: "get",
-    route: "/users",
-    controller: UserController,
-    action: "all"
-}, {
-    method: "get",
-    route: "/users/:id",
-    controller: UserController,
-    action: "one"
-}, {
-    method: "post",
-    route: "/users",
-    controller: UserController,
-    action: "save"
-}, {
-    method: "delete",
-    route: "/users/:id",
-    controller: UserController,
-    action: "remove"
-},
-
-
 
 //routes for provider
 //
@@ -116,5 +86,10 @@ export const Routes = [
     route: "/product/:id",
     controller: ProductController,
     action: "remove"
+}, {
+    method: "get",
+    route: "/productTable",
+    controller: ProductController,
+    action: "allTable"
 }
 ];
