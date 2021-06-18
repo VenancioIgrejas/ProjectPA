@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Ajuste do login da aplicação e credenciais
+
+Adicionar o arquivo `.env` na raiz dessa pasta e incluir as credenciais do [Auth0](https://auth0.com/) referentes ao seu cadastro.
+
+```
+  REACT_APP_AUTH0_DOMAIN={dominio da aplicação do auth}
+  REACT_APP_AUTH0_CLIENT_ID={Id do cliente da aplicação do auth}
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
